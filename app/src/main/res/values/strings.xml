@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Groceries demo</string>
+    <string name="screen_title_grocery_list">Grocery List</string>
+    <string name="screen_subtitle_grocery_list">Add items to your shopping list</string>
+    <string name="content_desc_sort">Sort</string>
+    <string name="empty_list_title">Your grocery list is empty</string>
+    <string name="empty_list_subtitle">Add items above to get started</string>
+    <string name="empty_filtered_title">No items in this category</string>
+    <string name="empty_filtered_subtitle">Tap "All" above to see everything</string>
+    <string name="add_section_expand">Add New Item</string>
+    <string name="add_section_collapse">Hide</string>
+    <string name="label_item_name">Item Name</string>
+    <string name="placeholder_item_name">Enter grocery item...</string>
+    <string name="label_category">Category</string>
+    <string name="button_add_item">+ Add Item</string>
+    <string name="dialog_edit_item_title">Edit Item</string>
+    <string name="dialog_edit_item_name_label">Item name</string>
+    <string name="button_save">Save</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="snackbar_dismiss">Dismiss</string>
+    <string name="content_desc_edit">Edit</string>
+    <string name="content_desc_delete">Delete</string>
+    <string name="error_item_name_empty">Item name can\'t be empty</string>
+    <string name="error_generic">Something went wrong. Please try again.</string>
+    <string name="filter_all">All</string>
+    <string name="sort_default">Default</string>
+    <string name="sort_az">A-Z</string>
+    <string name="sort_category">Category</string>
+    <string name="sort_status">Status</string>
+    <string name="category_milk">Milk</string>
+    <string name="category_vegetables">Vegetables</string>
+    <string name="category_fruits">Fruits</string>
+    <string name="category_breads">Breads</string>
+    <string name="category_meats">Meats</string>
+</resources>
