@@ -33,9 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -64,20 +62,16 @@ fun GroceryListScreen(
     viewModel: GroceryListViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val formState by remember { derivedStateOf { state.form } }
-    val listState by remember { derivedStateOf { state.list } }
-    val editState by remember { derivedStateOf { state.edit } }
-    var addSectionExpanded by remember { mutableStateOf(false) }
+    val formState = state.form
+    val listState = state.list
+    val editState = state.edit
     var showSortMenu by remember { mutableStateOf(false) }
-    var prevItemCount by remember { mutableIntStateOf(listState.items.size) }
     val focusManager = LocalFocusManager.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
-    LaunchedEffect(listState.items.size) {
-        if (listState.items.size > prevItemCount) {
-            addSectionExpanded = false
-            focusManager.clearFocus()
-        }
-        prevItemCount = listState.items.size
+    LaunchedEffect(formState.addSectionExpanded) {
+        if (!formState.addSectionExpanded) focusManager.clearFocus()
     }
 
     editState.editingItem?.let { item ->
@@ -91,10 +85,9 @@ fun GroceryListScreen(
         )
     }
 
-    val snackbarHostState = remember { SnackbarHostState() }
-    val context = LocalContext.current
+
     val snackbarDismissLabel = stringResource(R.string.snackbar_dismiss)
-    LaunchedEffect(Unit) {
+    LaunchedEffect(viewModel) {
         viewModel.genericErrorEvents.collect { resId ->
             snackbarHostState.showSnackbar(
                 message = context.getString(resId),
@@ -155,8 +148,8 @@ fun GroceryListScreen(
 
                 item {
                     AddItemSection(
-                        expanded = addSectionExpanded,
-                        onExpandToggle = { addSectionExpanded = !addSectionExpanded },
+                        expanded = formState.addSectionExpanded,
+                        onExpandToggle = { viewModel.onIntent(GroceryListIntent.ToggleAddSection) },
                         name = formState.inputName,
                         category = formState.inputCategory,
                         validationErrorResId = formState.validationErrorResId,

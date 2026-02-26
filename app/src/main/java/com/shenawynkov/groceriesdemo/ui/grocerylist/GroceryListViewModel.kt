@@ -67,6 +67,9 @@ class GroceryListViewModel @Inject constructor(
             is GroceryListIntent.SetSort ->
                 localState.update { it.copy(list = it.list.copy(sortOption = intent.option)) }
 
+            is GroceryListIntent.ToggleAddSection ->
+                localState.update { it.copy(form = it.form.copy(addSectionExpanded = !it.form.addSectionExpanded)) }
+
             is GroceryListIntent.DismissError ->
                 localState.update {
                     it.copy(
@@ -142,7 +145,7 @@ class GroceryListViewModel @Inject constructor(
             val success = repository.add(item).isSuccess
             if (success) {
                 localState.update {
-                    it.copy(form = it.form.copy(inputName = "", validationErrorResId = null))
+                    it.copy(form = it.form.copy(inputName = "", validationErrorResId = null, addSectionExpanded = false))
                 }
             } else {
                 _genericErrorEvents.send(R.string.error_generic)

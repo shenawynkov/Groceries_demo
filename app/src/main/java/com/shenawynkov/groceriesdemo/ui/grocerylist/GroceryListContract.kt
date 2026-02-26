@@ -8,7 +8,8 @@ import com.shenawynkov.groceriesdemo.domain.model.GroceryItem
 data class FormState(
     val inputName: String = "",
     val inputCategory: Category = Category.MILK,
-    val validationErrorResId: Int? = null
+    val validationErrorResId: Int? = null,
+    val addSectionExpanded: Boolean = false
 )
 
 @Immutable
@@ -43,6 +44,7 @@ sealed interface GroceryListIntent {
     data object CancelEdit : GroceryListIntent
     data class SetFilter(val category: Category?) : GroceryListIntent
     data class SetSort(val option: SortOption) : GroceryListIntent
+    data object ToggleAddSection : GroceryListIntent
     data object DismissError : GroceryListIntent
 }
 
