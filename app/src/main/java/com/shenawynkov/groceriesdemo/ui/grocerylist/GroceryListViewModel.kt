@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
@@ -30,16 +31,10 @@ class GroceryListViewModel @Inject constructor(
 
     private val localState = MutableStateFlow(GroceryListState())
 
-    private val getAllFlow = repository.getAll()
-        .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
-
-    init {
-        viewModelScope.launch {
-            getAllFlow.collect { result ->
-                if (result.isFailure) _genericErrorEvents.send(R.string.error_generic)
-            }
-        }
+    private val getAllFlow = repository.getAll().onEach { result ->
+        if (result.isFailure) _genericErrorEvents.send(R.string.error_generic)
     }
+
 
     val state: StateFlow<GroceryListState> = combine(getAllFlow, localState) { result, local ->
         mergeRepoResult(result, local)
